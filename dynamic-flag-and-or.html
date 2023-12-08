@@ -8,25 +8,32 @@
     .red {
       color: red;
     }
-    .action div{
+
+    .action div {
       padding: .5em;
     }
-    .text-style div{
+
+    .text-style div {
       font-size: 2em;
       margin: .5em;
     }
+
     .bold {
       font-weight: bolder;
     }
+
     .underline {
       text-decoration: underline;
     }
+
     .italic {
       font-style: italic;
     }
+
     input {
       margin-left: 2em;
     }
+
     div {
       border: 1px solid lightgray;
     }
@@ -92,47 +99,52 @@
 </head>
 
 <body style="text-align: center;">
-  <div class="divs">
 
-    <h2>Checkboxes Behaving in AND mode or OR mode</div>
-    <div>
-      Assignment:
-      <br>Given the html and css only, write code to achieve the behavior you see
-      whereby the checkboxes could behave in either AND mode or OR mode.
-      <p>
-        Important: Your code must work with any number of new flags just be adding needed html and css (no code changes).
-      </p>
-      Hint: Make sure no unnecessary work is done; e.g. after ORing with true or ANDing with false
-    </div>
+  <div class="divs">
+    <h2>Checkboxes Behaving in AND mode or OR mode</h2>
 
     <div class="action">
       <div>
-        <input name="andor" id="and" type="radio" onchange="show()"/>
+        <input name="andor" id="and" type="radio" onchange="show()" />
         <label for="and">AND</label>
 
-        <input checked name="andor" id="or" type="radio" onchange="show()"/>
+        <input checked name="andor" id="or" type="radio" onchange="show()" />
         <label for="or">OR</label>
       </div>
       <div>
-        <input type="checkbox" id="bold"      onclick="show()" /><label for="bold">Bold</label>
-        <input type="checkbox" id="italic"    onclick="show()" /><label for="italic">Italic</label>
+        <input type="checkbox" id="bold" onclick="show()" /><label for="bold">Bold</label>
+        <input type="checkbox" id="italic" onclick="show()" /><label for="italic">Italic</label>
         <input type="checkbox" id="underline" onclick="show()" /><label for="underline">Underline</label>
-        <input type="checkbox" id="red"     onclick="show()" ><label for="red">Red</label>
+        <input type="checkbox" id="red" onclick="show()"><label for="red">Red</label>
       </div>
     </div>
 
     <div class="text-style">
-      <div id="italic_red-"         class="italic red"              >italic red</div>
-      <div id="italic-"               class="italic"                >italic</div>
-      <div id="bold_red-"           class="bold red"                >bold red</div>
-      <div id="bold-"                 class="bold"                  >bold</div>
-      <div id="underline-"            class="underline"             >underline</div>
-      <div id="bold-italic"           class="bold italic"           >bold italic</div>
-      <div id="italic-underline"      class="italic underline"      >italic underline</div>
-      <div id="bold-italic-underline" class="bold italic underline" >bold italic underline</div>
+      <div id="italic_red-" class="italic red">italic red</div>
+      <div id="italic-" class="italic">italic</div>
+      <div id="bold_red-" class="bold red">bold red</div>
+      <div id="bold-" class="bold">bold</div>
+      <div id="underline-" class="underline">underline</div>
+      <div id="bold-italic" class="bold italic">bold italic</div>
+      <div id="italic-underline" class="italic underline">italic underline</div>
+      <div id="bold-italic-underline" class="bold italic underline">bold italic underline</div>
     </div>
 
+    <div>
+      Assignment:
+      <br>Given the html and css only, write code to achieve the behavior you see
+      whereby the checkboxes behave in either AND mode or OR mode.
+      <p>
+        Important: Your code must work with any number of new flags just be adding needed html and css (no code
+        changes).
+      </p>
+      <p>
+        Note: checkbox id MUST be the same as style class names, i.e. "bold", "italic", "underline"
+      </p>
+      Hint: Make sure no unnecessary work is done; e.g. after ORing with true or ANDing with false
+    </div>
   </div>
+
 </body>
 
 </html>
