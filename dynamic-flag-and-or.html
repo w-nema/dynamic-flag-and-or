@@ -1,0 +1,138 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AND-OR-wn</title>
+  <style>
+    .red {
+      color: red;
+    }
+    .action div{
+      padding: .5em;
+    }
+    .text-style div{
+      font-size: 2em;
+      margin: .5em;
+    }
+    .bold {
+      font-weight: bolder;
+    }
+    .underline {
+      text-decoration: underline;
+    }
+    .italic {
+      font-style: italic;
+    }
+    input {
+      margin-left: 2em;
+    }
+    div {
+      border: 1px solid lightgray;
+    }
+  </style>
+  <script>
+
+    /**
+     * Important: checkbox id MUST be the same as style class names, i.e. "bold", "italic", "underline"
+     * */
+    function show() {
+      let
+        hit,    //show div when hit is true
+        retVal, //-1 is for passthrough (continue to next test)
+        mode = document.getElementById('and').checked ? 'AND'
+          : document.getElementById('or').checked ? 'OR' : undefined
+      if (mode === undefined) { alert('please check either AND or OR, plus one of the color flags'); return }
+
+      const
+        //this is THE key function
+        setHit = (isTrue, mode) => {
+          switch (mode) {
+            case 'OR':
+              hit ||= isTrue
+              if (hit) return 1;
+              break;
+            case 'AND':
+              hit &&= isTrue
+              if (!hit) return 0;
+              break;
+          }
+          return -1 //passthrough to test style div against other flags
+        }
+
+      const
+        styleDivs = document.querySelectorAll('div[id]'),
+        styleDivsLen = styleDivs.length,
+        flags = document.querySelectorAll('[type=checkbox]'),
+        flagsLen = flags.length
+
+      for (let i = 0; i < styleDivsLen; i++) {
+        const div = styleDivs[i]
+
+        hit = mode === 'OR' ? false : true //default changes based on mode
+        retVal = -1
+        outerLoop: for (let jj = 0; jj < flagsLen; jj++) {
+          let
+            flag = flags[jj],
+            flagStyle = flag.id,
+            flagChecked = flag.checked
+          if (!flagChecked) continue;
+          retVal = setHit(div.classList.contains(flagStyle), mode)
+          if (retVal > -1) {
+            div.style.display = retVal === 0 ? 'none' : 'block'
+            break outerLoop;
+          }
+        }
+
+        div.style.display = hit ? 'block' : 'none'
+      }// </for>
+
+    }
+  </script>
+</head>
+
+<body style="text-align: center;">
+  <div class="divs">
+
+    <h2>Checkboxes Behaving in AND mode or OR mode</div>
+    <div>
+      Assignment:
+      <br>Given the html and css only, write code to achieve the behavior you see
+      whereby the checkboxes could behave in either AND mode or OR mode.
+      <p>
+        Important: Your code must work with any number of new flags just be adding needed html and css (no code changes).
+      </p>
+      Hint: Make sure no unnecessary work is done; e.g. after ORing with true or ANDing with false
+    </div>
+
+    <div class="action">
+      <div>
+        <input name="andor" id="and" type="radio" onchange="show()"/>
+        <label for="and">AND</label>
+
+        <input checked name="andor" id="or" type="radio" onchange="show()"/>
+        <label for="or">OR</label>
+      </div>
+      <div>
+        <input type="checkbox" id="bold"      onclick="show()" /><label for="bold">Bold</label>
+        <input type="checkbox" id="italic"    onclick="show()" /><label for="italic">Italic</label>
+        <input type="checkbox" id="underline" onclick="show()" /><label for="underline">Underline</label>
+        <input type="checkbox" id="red"     onclick="show()" ><label for="red">Red</label>
+      </div>
+    </div>
+
+    <div class="text-style">
+      <div id="italic_red-"         class="italic red"              >italic red</div>
+      <div id="italic-"               class="italic"                >italic</div>
+      <div id="bold_red-"           class="bold red"                >bold red</div>
+      <div id="bold-"                 class="bold"                  >bold</div>
+      <div id="underline-"            class="underline"             >underline</div>
+      <div id="bold-italic"           class="bold italic"           >bold italic</div>
+      <div id="italic-underline"      class="italic underline"      >italic underline</div>
+      <div id="bold-italic-underline" class="bold italic underline" >bold italic underline</div>
+    </div>
+
+  </div>
+</body>
+
+</html>
