@@ -1,173 +1,125 @@
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AND-OR-wn</title>
-  <style>
-    .red {
-      color: red;
-    }
-
-    .action div {
-      padding: 0.5em;
-    }
-
-    .text-style div {
-      font-size: 2em;
-      margin: 0.5em;
-    }
-
-    .bold {
-      font-weight: bolder;
-    }
-
-    .underline {
-      text-decoration: underline;
-    }
-
-    .italic {
-      font-style: italic;
-    }
-
-    input {
-      margin-left: 2em;
-    }
-
-    div {
-      border: 1px solid lightgray;
-    }
-
-    body {
-      text-align: center;
-    }
-  </style>
-  <script>
-    /**
-     * Important: checkbox id MUST be the same as style class names, i.e. "bold", "italic", "underline"
-     * */
-    function show() {
-      let hit, //show div when hit is true
-        retVal, //-1 is for passthrough (continue to next test)
-        mode = document.getElementById("and").checked
-          ? "AND"
-          : document.getElementById("or").checked
-            ? "OR"
-            : undefined;
-      if (mode === undefined) {
-        alert("please check either AND or OR, plus one of the color flags");
-        return;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>andOr2.html</title>
+    <style>
+      .action div{
+        padding: .5em;
       }
+      .text-style div{
+        font-size: 2em;
+        margin: .5em;
+      }
+      .bold {
+        font-weight: bolder;
+      }
+      .underline {
+        text-decoration: underline;
+      }
+      .italic {
+        font-style: italic;
+      }
+      input {
+        margin-left: 2em;
+      }
+      div {
+        border: 1px solid lightgray;
+      }
+    </style>
+  </head>
+  <body style="text-align: center">
+    <div class="divs">
+      <h2>Checkboxes Behaving in AND mode or OR mode</h2>
 
-      const //this is THE key function
-        setHit = (isTrue, mode) => {
+      <div class="action">
+        <div>
+          <input name="andor" id="and" type="radio" onchange="show()" />
+          <label for="and">AND</label>
+
+          <input checked name="andor" id="or" type="radio" onchange="show()"/>
+          <label for="or">OR</label>
+        </div>
+        <div>
+          <input type="checkbox" id="bold" onclick="show()" /><label for="bold"
+            >Bold</label
+          >
+          <input type="checkbox" id="italic" onclick="show()" /><label
+            for="italic"
+            >Italic</label
+          >
+          <input type="checkbox" id="underline" onclick="show()" /><label
+            for="underline"
+            >Underline</label
+          >
+        </div>
+      </div>
+
+      <div class="text-style">
+        <div id="italic-" class="italic">italic</div>
+        <div id="bold-" class="bold">bold</div>
+        <div id="underline-" class="underline">underline</div>
+        <div id="bold-italic" class="bold italic">bold italic</div>
+        <div id="italic-underline" class="italic underline">
+          italic underline
+        </div>
+        <div id="bold-italic-underline" class="bold italic underline">
+          bold italic underline
+        </div>
+      </div>
+    </div>
+    <script>
+      function show() {
+        const setHit = (isTrue, mode) => {
+          //this is THE key function
           switch (mode) {
             case "OR":
-              hit ||= isTrue;
-              if (hit) return 1;
+              hit ||= isTrue; // If isTrue is true, hit becomes true (OR logic)
+              if (hit) return 1; // Return 1 (match) if hit is true
               break;
             case "AND":
-              hit &&= isTrue;
-              if (!hit) return 0;
+              hit &&= isTrue; // If isTrue is false, hit becomes false (AND logic)
+              if (!hit) return 0; // Return 0 (no match) if hit is false
               break;
           }
-          return -1; //passthrough to test style div against other flags
+          return -1; // Return -1 (passthrough) if neither AND nor OR conditions are met
         };
-
-      const styleDivs = document.querySelectorAll("div[id]"),
-        styleDivsLen = styleDivs.length,
-        flags = document.querySelectorAll("[type=checkbox]"),
-        flagsLen = flags.length;
-
-      for (let i = 0; i < styleDivsLen; i++) {
-        const div = styleDivs[i];
-
-        hit = mode === "OR" ? false : true; //default changes based on mode
-        retVal = -1;
-        outerLoop: for (let jj = 0; jj < flagsLen; jj++) {
-          let flag = flags[jj],
-            flagStyle = flag.id,
-            flagChecked = flag.checked;
-          if (!flagChecked) continue;
-          retVal = setHit(div.classList.contains(flagStyle), mode);
-          if (retVal > -1) {
-            div.style.display = retVal === 0 ? "none" : "block";
-            break outerLoop;
-          }
+        let hit, //show div when hit is true
+          mode = document.getElementById("and").checked
+            ? "AND"
+            : document.getElementById("or").checked
+            ? "OR"
+            : undefined;
+        if (mode === undefined) {
+          alert("please check either AND or OR, plus one of the color flags");
+          return;
         }
 
-        div.style.display = hit ? "block" : "none";
-      } // </for>
-    }
-  </script>
-</head>
+        const styleDivs = document.querySelectorAll("div[id]"),
+          styleDivsLen = styleDivs.length,
+          flags = document.querySelectorAll("[type=checkbox]"),
+          flagsLen = flags.length;
 
-<body style="text-align: center;">
-  <div class="divs">
-    <h2>Checkboxes Behaving in AND mode or OR mode</h2>
+        for (let i = 0; i < styleDivsLen; i++) {
+          const div = styleDivs[i];
 
-    <div class="action">
-      <div>
-        <input name="andor" id="and" type="radio" onchange="show()" />
-        <label for="and">AND</label>
+          hit = mode === "OR" ? false : true; //default changes based on mode
+          for (let jj = 0; jj < flagsLen; jj++) {
+            let flag = flags[jj],
+              flagStyle = flag.id,
+              flagChecked = flag.checked;
+            if (flagChecked) {
+              const result = setHit(div.classList.contains(flagStyle), mode);
+              if (result > -1) {
+                div.style.display = result === 0 ? "none" : "block";
+                break;
+              }
+            }
+          }
 
-        <input checked name="andor" id="or" type="radio" onchange="show()" />
-        <label for="or">OR</label>
-      </div>
-      <div>
-        <input type="checkbox" id="bold" onclick="show()" /><label for="bold">Bold</label>
-        <input type="checkbox" id="italic" onclick="show()" /><label for="italic">Italic</label>
-        <input type="checkbox" id="underline" onclick="show()" /><label for="underline">Underline</label>
-        <input type="checkbox" id="red" onclick="show()" /><label for="red">Red</label>
-      </div>
-    </div>
-
-    <div class="text-style">
-      <div id="italic_red-" class="italic red">italic red</div>
-      <div id="italic-" class="italic">italic</div>
-      <div id="bold_red-" class="bold red">bold red</div>
-      <div id="bold-" class="bold">bold</div>
-      <div id="underline-" class="underline">underline</div>
-      <div id="bold-italic" class="bold italic">bold italic</div>
-      <div id="italic-underline" class="italic underline">italic underline</div>
-      <div id="bold-italic-underline" class="bold italic underline">bold italic underline</div>
-    </div>
-
-    <div>
-      Assignment:
-      <br>Given the html and css only, write code to achieve the behavior you see
-      whereby the checkboxes behave in either AND mode or OR filtering mode.
-      <p>
-        Important: Your code must work with any number of new flags just be adding needed html and css (no code
-        changes) --see how to test section below.
-      </p>
-      <p>
-        Note: checkbox id MUST be the same as style class names, e.g. "bold", "italic", "underline"
-      </p>
-      <p>
-        Hint: Make sure no unnecessary work is done; e.g. after ORing with true or ANDing with false
-      </p>
-      <div style="text-align:left;">
-        To test your code:
-        <ol>
-          <li>
-            add this to styles: .blue { blue }
-          </li>
-          <li>add this to html: 
-            &lt;input type="checkbox" id="blue" onclick="show()" /&gt;&lt;label for="blue"&gt;Blue&lt;/label&gt;
-          </li>
-          <li>
-            add this to the html: 
-            &lt;div id="italic_blue-" class="italic blue"&gt;italic blue&lt;/div&gt;
-          </li>
-        </ol>
-      </div>
-      <div>
-        Finally, another good exercise, instead of filtering on styles, is to filter on text content (probably a more
-        real-life scenario). Have fun with it...
-      </div>
-    </div>
-  </div>
-</body>
-
+          div.style.display = hit ? "block" : "none";
+        } // </for>
+      } //</show>
+    </script>
+  </body>
 </html>
